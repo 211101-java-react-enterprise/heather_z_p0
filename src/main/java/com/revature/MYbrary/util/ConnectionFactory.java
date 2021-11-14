@@ -24,7 +24,7 @@ public class ConnectionFactory {
 
     private ConnectionFactory() {
         try {
-            properties.load(new FileReader("resources/db.properties"));
+            properties.load(new FileReader("src/main/resources/db.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
