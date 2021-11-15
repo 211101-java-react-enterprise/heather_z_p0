@@ -119,19 +119,19 @@ public class LinkedList<T> implements List<T> {
         }
 
         StringBuilder strBldr = new StringBuilder();
-        strBldr.append("[ ");
+        // strBldr.append("[ ");
 
         Node<T> runner = head;
         for (int i = 0; i < this.size; i++) {
             if (i == size - 1) {
-                strBldr.append(runner.data.toString()).append(" ");
+                strBldr.append(runner.data.toString()); //.append(" ");
             } else {
-                strBldr.append(runner.data.toString()).append(", ");
+                strBldr.append(runner.data.toString()); //.append(", ");
             }
             runner = runner.nextNode;
         }
 
-        strBldr.append("]");
+        // strBldr.append("]");
 
         return strBldr.toString();
     }
