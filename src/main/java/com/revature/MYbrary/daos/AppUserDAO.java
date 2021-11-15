@@ -7,6 +7,7 @@ import com.revature.MYbrary.util.List;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -14,24 +15,33 @@ public class AppUserDAO implements CrudDAO<AppUser> {
     /* TODO
     *   - findById
     *   - findByUsername
-
     * */
 
     @Override
+    public List<AppUser> findAll() {
+        return null;
+    }
+
+    @Override
+    public AppUser findById(String id) {
+        return null;
+    }
+
+    @Override
     public AppUser save(AppUser newUser) {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
 
             newUser.setId(UUID.randomUUID().toString());
 
             String sql = "insert into app_users (id, first_name, last_name, email, username, password) values (?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, newUser.getId());
-            pstmt.setString(2, newUser.getPersonalName());
-            pstmt.setString(4, newUser.getEmail());
-            pstmt.setString(5, newUser.getUsername());
-            pstmt.setString(6, newUser.getPassword());
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, newUser.getId());
+            statement.setString(2, newUser.getPersonalName());
+            statement.setString(4, newUser.getEmail());
+            statement.setString(5, newUser.getUsername());
+            statement.setString(6, newUser.getPassword());
 
-            int rowsInserted = pstmt.executeUpdate();
+            int rowsInserted = statement.executeUpdate();
 
             if (rowsInserted != 0) {
                 return newUser;
@@ -47,16 +57,6 @@ public class AppUserDAO implements CrudDAO<AppUser> {
     }
 
     @Override
-    public List<AppUser> findAll() {
-        return null;
-    }
-
-    @Override
-    public AppUser findById(String id) {
-        return null;
-    }
-
-    @Override
     public boolean update(AppUser updatedObj) {
         return false;
     }
@@ -65,6 +65,87 @@ public class AppUserDAO implements CrudDAO<AppUser> {
     public boolean removeById(String id) {
         return false;
     }
+
+    public AppUser findUserByUsername(String username) {
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+            String sql = "select * from app_users where username = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                AppUser user = new AppUser();
+                user.setId(rs.getString("userId"));
+                user.setPersonalName(rs.getString("personalName"));
+                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                return user;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public AppUser findByEmail(String email) {
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+            String sql = "select * from app_users where email = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                AppUser user = new AppUser();
+                user.setId(rs.getString("user_id"));
+                user.setPersonalName(rs.getString("personalName"));
+                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                return user;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public AppUser findByUsernameAndPassword(String username, String password) {
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+            String sql = "select * from app_users where username = ? and password = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                AppUser user = new AppUser();
+                user.setId(rs.getString("user_id"));
+                user.setPersonalName(rs.getString("personalName"));
+                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                return user;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
 
     public AppUser findForLogin(String username, String password) {
         File file = new File("resources/data.txt");
