@@ -1,10 +1,8 @@
 package com.revature.MYbrary.models;
 
-import java.util.Objects;
-
 public class AppUser extends Object {
 
-    private String id;
+    private Integer id;
     private String personalName;
     private String email;
     private String username;
@@ -17,7 +15,7 @@ public class AppUser extends Object {
         this.password = password;
     }
 
-    public AppUser(String id, String personalName, String email, String username, String password) {
+    public AppUser(Integer id, String personalName, String email, String username, String password) {
         this(personalName, email, username, password);
         this.id = id;
     }
@@ -26,11 +24,11 @@ public class AppUser extends Object {
         super();
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

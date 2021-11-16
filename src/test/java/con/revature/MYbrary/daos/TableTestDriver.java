@@ -23,7 +23,8 @@ public class TableTestDriver {
                     "personal_name varchar, " +
                     "email varchar unique not null, " +
                     "username varchar unique not null, " +
-                    "password varchar not null); ");
+                    "password varchar not null, " +
+                    "date_joined datetime); ");
             // LIBRARIES
             queries.add("create table libraries (" +
                     "id serial primary key, " +
@@ -65,6 +66,16 @@ public class TableTestDriver {
             System.out.println(queries.toString());
             PreparedStatement statement = connection.prepareStatement(queries.toString());
             statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void populateTables() {
+        try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
+            LinkedList<String> queries = new LinkedList<>();
 
         } catch (SQLException e) {
             e.printStackTrace();
