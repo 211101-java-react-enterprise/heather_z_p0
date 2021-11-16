@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import com.revature.MYbrary.daos.LibraryDAO;
+import com.revature.MYbrary.models.Library;
+import com.revature.MYbrary.services.LibraryService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,7 +21,10 @@ import com.revature.MYbrary.models.AppUser;
 
 public class TableTestDriver {
     AppUserDAO userDAO = new AppUserDAO();
+    LibraryDAO libraryDAO = new LibraryDAO();
     UserService userService = new UserService(userDAO);
+    LibraryService libraryService = new LibraryService(libraryDAO);
+
 
     @Test
     public void createTables() {
@@ -58,8 +64,8 @@ public class TableTestDriver {
                     "constraint book_library_fk " +
                     "foreign key (library_id) " +
                     "references libraries); ");
-            // QUOTES
-            queries.add("create table quotes (" +
+            // ANNOTATIONS
+            queries.add("create table annotations (" +
                     "id serial primary key, " +
                     "starting_words varchar(64) not null, " +
                     "starting_page int not null, " +
@@ -68,7 +74,7 @@ public class TableTestDriver {
                     "notes varchar(8192), " +
                     "book_id int, " +
                     // constraints
-                    "constraint quote_book_fk " +
+                    "constraint annotation_book_fk " +
                     "foreign key (book_id) " +
                     "references books); ");
             System.out.println(queries.toStringRaw());
@@ -81,11 +87,18 @@ public class TableTestDriver {
     }
 
     @Test
-    public void populateTables() {
-        boolean user1 = userService.registerNewUser(new AppUser("Eagle Eyes Jamison","james@eagleeyes.biz","SeaEwe","oIcu812"));
+    public void populateAppUsers() {
+        boolean user1 = userService.registerNewUser(new AppUser("Eagle Eyes Jamison","james@eagleeyes.biz","SeaEwe","oicu812"));
         boolean user2 = userService.registerNewUser(new AppUser("Grimms Gramms","grandgramm@altavista.com","bred-crumz","1M$0C|3^3R"));
         boolean user3 = userService.registerNewUser(new AppUser("Crash","outerlimits95@hotmail.com","crashOverride","~Secure~~And~~Unique~"));
 
         Assert.assertTrue(user1 && user2 && user3);
+    }
+
+    @Test
+    public void populateLibraries() {
+        boolean library1 = libraryService.createNewLibrary(new Library("My First Library","5b4ed11a-760f-4c16-9389-000b930a1614"));
+
+        Assert.assertTrue(library1);
     }
 }

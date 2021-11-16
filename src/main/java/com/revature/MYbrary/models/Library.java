@@ -4,14 +4,14 @@ public class Library extends Object {
 
     private Integer id;
     private String name;
-    private Integer user_id;
+    private String user_id;
 
-    public Library(String name, Integer user_id) {
+    public Library(String name, String user_id) {
         this.name = name;
         this.user_id = user_id;
     }
 
-    public Library(Integer id, String name, Integer user_id) {
+    public Library(Integer id, String name, String user_id) {
         this(name, user_id);
         this.id = id;
     }
@@ -36,11 +36,11 @@ public class Library extends Object {
         this.name = name;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return user_id;
     }
 
-    public void setUserId(Integer user_id) {
+    public void setUserId(String user_id) {
         this.user_id = user_id;
     }
 }
