@@ -1,5 +1,6 @@
 package com.revature.MYbrary.util;
 
+import com.revature.MYbrary.daos.AppUserDAO;
 import com.revature.MYbrary.screens.WelcomeScreen;
 import com.revature.MYbrary.services.UserService;
 
@@ -16,7 +17,8 @@ public class AppState {
         router = new ScreenRouter();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
-        UserService userService = new UserService();
+        AppUserDAO userDAO = new AppUserDAO();
+        UserService userService = new UserService(userDAO);
         router.addScreen(new WelcomeScreen(consoleReader, router));
     }
 
