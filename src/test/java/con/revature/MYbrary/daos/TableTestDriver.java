@@ -54,12 +54,7 @@ public class TableTestDriver {
                     "title varchar not null, " +
                     "author varchar not null, " +
                     "page_count int not null, " +
-                    "genre varchar, " +
-                    "edition varchar, " +
-                    "publisher varchar, " +
-                    "publication_city varchar, " +
-                    "publication_year int, " +
-                    "library_id int, " +
+                    "library_id int not null, " +
                     // constraints
                     "constraint book_library_fk " +
                     "foreign key (library_id) " +

@@ -32,6 +32,7 @@ public class RegisterScreen extends Screen {
             userService.registerNewUser(newUser);
             System.out.println("Your user account has been successfully registered!\n" +
                     "Redirecting you to the Login page...\n\n\n");
+            router.navigate("/login");
         } catch (Exception e) {
             e.printStackTrace();
         }

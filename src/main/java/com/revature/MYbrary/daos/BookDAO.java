@@ -1,6 +1,7 @@
 package com.revature.MYbrary.daos;
 
 import com.revature.MYbrary.models.AppUser;
+import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.util.ConnectionFactory;
 import com.revature.MYbrary.util.LinkedList;
@@ -11,23 +12,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LibraryDAO implements CrudDAO<Library> {
+public class BookDAO implements CrudDAO<Book> {
 
     @Override
-    public Library save(Library newLibrary) {
-
+    public Book save(Book newBook) {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
-            String sql = "insert into libraries (name, user_id) values (?, ?)";
+            String sql = "insert into books (title, author, page_count, library_id) values (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, newLibrary.getName());
-            statement.setString(2, newLibrary.getUserId());
+            statement.setString(1, newBook.getTitle());
+            statement.setString(2, newBook.getAuthor());
+            statement.setInt(3, newBook.getPageCount());;
+            statement.setInt(4, newBook.getLibraryId());
 
             int rowsInserted = statement.executeUpdate();
 
             if (rowsInserted != 0) {
-                return newLibrary;
+                return newBook;
             }
-
         } catch (SQLException e) {
             // TODO log this and throw our own custom exception to be caught in the service layer
             e.printStackTrace();
@@ -38,17 +39,20 @@ public class LibraryDAO implements CrudDAO<Library> {
     }
 
     @Override
-    public LinkedList<Library> findAll() {
-        LinkedList<Library> libraries = new LinkedList<>();
+    public List findAll() {
+        LinkedList<Book> libraries = new LinkedList<>();
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
-            String query = "select * from libraries";
+            String query = "select * from books";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Library library = new Library();
-                library.setName(rs.getString("name"));
-                library.setUserId(rs.getString("user_id"));
-                libraries.add(library);
+                Book book = new Book();
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setPageCount(rs.getInt("page_count"));
+                book.setLibraryId(rs.getInt("library_id"));
+
+                libraries.add(book);
             }
             return libraries;
         }  catch (SQLException e) {
@@ -58,20 +62,21 @@ public class LibraryDAO implements CrudDAO<Library> {
         }
     }
 
-    public LinkedList<Library> findAll(String userId) {
-        //System.out.println("~~~~ FLAG - LibraryDAO - L63 ~~~~\n" + userId);
-        LinkedList<Library> libraries = new LinkedList<>();
+    public LinkedList<Book> findAll(Integer libraryId) {
+        LinkedList<Book> libraries = new LinkedList<>();
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
-            String query = "select * from libraries where user_id = '" + userId + "';";
+            String query = "select * from books where library_id = '" + libraryId + "';";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Library library = new Library();
+                Book book = new Book();
 
-                library.setName(rs.getString("name"));
-                library.setUserId(rs.getString("user_id"));
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setPageCount(rs.getInt("page_count"));
+                book.setLibraryId(rs.getInt("library_id"));
 
-                libraries.add(library);
+                libraries.add(book);
             }
             return libraries;
         }  catch (SQLException e) {
@@ -82,17 +87,27 @@ public class LibraryDAO implements CrudDAO<Library> {
     }
 
     @Override
-    public Library findById(String id) {
+    public Book findById(String id) {
+        return findById(Integer.parseInt(id));
+    }
+
+    public Book findById(Integer id) {
         return null;
     }
 
     @Override
-    public boolean update(Library updatedObj) {
+    public boolean removeById(String id) {
+        return removeById(Integer.parseInt(id));
+    }
+
+    public boolean removeById(Integer id) {
         return false;
     }
 
     @Override
-    public boolean removeById(String id) {
+    public boolean update(Book updatedObj) {
         return false;
     }
+
+
 }

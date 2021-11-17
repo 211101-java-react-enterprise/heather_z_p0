@@ -8,10 +8,15 @@ import com.revature.MYbrary.screens.RegisterScreen;
 import com.revature.MYbrary.screens.LoginScreen;
 import com.revature.MYbrary.screens.DashboardScreen;
 import com.revature.MYbrary.screens.LibraryScreen;
+import com.revature.MYbrary.screens.LibraryNew;
 import sun.rmi.runtime.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
+////////////////////// DEBUGGING COMMENT TEMPLATE ///////////////////////
+// System.out.println("~~~~ FLAG - LibraryDAO - L63 ~~~~\n" + userId); //
+/////////////////////////////////////////////////////////////////////////
 
 public class AppState {
 
@@ -30,6 +35,7 @@ public class AppState {
         router.addScreen(new LoginScreen(consoleReader, router, userService));
         router.addScreen(new DashboardScreen(consoleReader, router, userService));
         router.addScreen(new LibraryScreen(consoleReader, router, userService));
+        router.addScreen(new LibraryNew(consoleReader, router, userService));
     }
 
     public void startup() {

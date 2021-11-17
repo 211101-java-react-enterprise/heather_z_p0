@@ -33,7 +33,6 @@ public class LibraryService {
     }
 
     public LinkedList<Library> getUserLibraries(String userId) {
-        System.out.println("~~~~ FLAG - LibraryService - L36 ~~~~\n" + userId);
         LinkedList<Library> userLibraries = libraryDAO.findAll(userId);
 
         if (userLibraries != null) {
@@ -47,9 +46,7 @@ public class LibraryService {
     public Library promptLibrarySelection(AppUser user, BufferedReader consoleReader) {
         Library activeLibrary = null;
         StringBuilder consoleOutput = new StringBuilder();
-
         LinkedList<Library> userLibraries = getUserLibraries(user.getId());
-        System.out.println("~~~~ FLAG - LibraryService- L51 ~~~~\n" + userLibraries.get(0));
 
         for (int i = 0; i < userLibraries.size(); i++) {
             consoleOutput.append(i + 1);
