@@ -38,7 +38,7 @@ public class LibraryDAO implements CrudDAO<Library> {
     }
 
     @Override
-    public List<Library> findAll() {
+    public LinkedList<Library> findAll() {
         LinkedList<Library> libraries = new LinkedList<>();
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             String query = "select * from libraries";
@@ -48,6 +48,28 @@ public class LibraryDAO implements CrudDAO<Library> {
             while (rs.next()) {
                 Library library = new Library();
                 library.setName(rs.getString("name"));
+                library.setUserId(rs.getString("user_id"));
+                libraries.add(library);
+            }
+            return libraries;
+        }  catch (SQLException e) {
+            // TODO log this and throw our own custom exception to be caught in the service layer
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public LinkedList<Library> findAll(String userId) {
+        System.out.println("~~~~ FLAG - LibraryDAO - L63 ~~~~\n" + userId);
+        LinkedList<Library> libraries = new LinkedList<>();
+        try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
+            String query = "select * from libraries where user_id = '" + userId + "';";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Library library = new Library();
+                library.setName(rs.getString("name"));
+                System.out.println("~~~~ FLAG - LibraryDAO - L72 ~~~~\n" + rs.getString("name"));
                 library.setUserId(rs.getString("user_id"));
                 libraries.add(library);
             }

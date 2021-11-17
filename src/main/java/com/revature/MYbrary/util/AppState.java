@@ -1,8 +1,14 @@
 package com.revature.MYbrary.util;
 
 import com.revature.MYbrary.daos.AppUserDAO;
-import com.revature.MYbrary.screens.WelcomeScreen;
 import com.revature.MYbrary.services.UserService;
+
+import com.revature.MYbrary.screens.WelcomeScreen;
+import com.revature.MYbrary.screens.RegisterScreen;
+import com.revature.MYbrary.screens.LoginScreen;
+import com.revature.MYbrary.screens.DashboardScreen;
+import com.revature.MYbrary.screens.LibraryScreen;
+import sun.rmi.runtime.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,6 +26,10 @@ public class AppState {
         AppUserDAO userDAO = new AppUserDAO();
         UserService userService = new UserService(userDAO);
         router.addScreen(new WelcomeScreen(consoleReader, router));
+        router.addScreen(new RegisterScreen(consoleReader, router, userService));
+        router.addScreen(new LoginScreen(consoleReader, router, userService));
+        router.addScreen(new DashboardScreen(consoleReader, router, userService));
+        router.addScreen(new LibraryScreen(consoleReader, router, userService));
     }
 
     public void startup() {
