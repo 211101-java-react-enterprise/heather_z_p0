@@ -30,6 +30,8 @@ public class LibraryNew extends Screen {
         Library newLibrary = new Library(libraryName, userService.getSessionUser().getId());
         try {
             libraryService.createNewLibrary(newLibrary);
+            router.navigate("/libraries");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

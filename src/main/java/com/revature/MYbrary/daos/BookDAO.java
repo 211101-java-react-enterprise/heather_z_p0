@@ -17,11 +17,12 @@ public class BookDAO implements CrudDAO<Book> {
     @Override
     public Book save(Book newBook) {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
-            String sql = "insert into books (title, author, page_count, library_id) values (?, ?, ?, ?)";
+            String sql = "insert into books (title, author, page_count, current_page, library_id) values (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, newBook.getTitle());
             statement.setString(2, newBook.getAuthor());
             statement.setInt(3, newBook.getPageCount());;
+            statement.setInt(4, newBook.getCurrentPage());
             statement.setInt(4, newBook.getLibraryId());
 
             int rowsInserted = statement.executeUpdate();
@@ -50,6 +51,7 @@ public class BookDAO implements CrudDAO<Book> {
                 book.setTitle(rs.getString("title"));
                 book.setAuthor(rs.getString("author"));
                 book.setPageCount(rs.getInt("page_count"));
+                book.setCurrentPage(rs.getInt("current_page"));
                 book.setLibraryId(rs.getInt("library_id"));
 
                 libraries.add(book);
@@ -74,6 +76,7 @@ public class BookDAO implements CrudDAO<Book> {
                 book.setTitle(rs.getString("title"));
                 book.setAuthor(rs.getString("author"));
                 book.setPageCount(rs.getInt("page_count"));
+                book.setCurrentPage(rs.getInt("current_page"));
                 book.setLibraryId(rs.getInt("library_id"));
 
                 libraries.add(book);
@@ -105,8 +108,29 @@ public class BookDAO implements CrudDAO<Book> {
     }
 
     @Override
-    public boolean update(Book updatedObj) {
-        return false;
+    public boolean update(Book book) { return false; }
+
+    public boolean updateCurrentPage(Book book, Integer newCurrentPage) {
+        try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
+            /*
+            UPDATE Customers
+            SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+            WHERE CustomerID = 1;
+             */
+            String query = "update books " +
+                    "set current_page = " + newCurrentPage +
+                    "where book_id = " + book.getId() + ";";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+
+            return true;
+
+        }  catch (SQLException e) {
+            // TODO log this and throw our own custom exception to be caught in the service layer
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
 

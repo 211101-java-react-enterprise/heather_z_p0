@@ -20,7 +20,7 @@ public class DashboardScreen extends Screen {
         // Welcome the user all personal-like
         // Display all existing library names, or a message if there are none
 
-        System.out.print("Please indicate the library to explore, or input '0' to create a new library.\n" +
+        System.out.print("\n" +
                 " 1) New Library\n" +
                 " 2) View Libraries\n" +
                 " 3) Exit\n\n" +
