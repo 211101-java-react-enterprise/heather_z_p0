@@ -29,8 +29,7 @@ public class WelcomeScreen extends Screen {
                 "Please select an option:");
         System.out.print(" 1) Login\n" +
                          " 2) Register\n" +
-                         " 3) Debug\n" +
-                         " 4) Exit\n" +
+                         " 3) Exit\n" +
                          "> ");
 
         String userSelection = consoleReader.readLine();
@@ -43,9 +42,6 @@ public class WelcomeScreen extends Screen {
                 router.navigate("/register");
                 break;
             case "3":
-                router.navigate("/debug");
-                break;
-            case "4":
                 System.out.println("Fare thee well!");
                 shutdown();
                 break;

@@ -23,9 +23,9 @@ public class LoginScreen extends Screen {
         String password = consoleReader.readLine();
 
         try {
-            AppUser authenticatedUser = userService.authenticateUser(username, password);
-            System.out.println("Credentials validated, matching user found: " + authenticatedUser);
-            // TODO navigate to dashboard
+            userService.authenticateUser(username, password);
+            System.out.println("Login successful! Redirecting to your dashboard...\n\n\n");
+            router.navigate("/dashboard");
         } catch (AuthenticationException e) {
             System.out.println("Incorrect credentials provided! No matching user account found.");
         }

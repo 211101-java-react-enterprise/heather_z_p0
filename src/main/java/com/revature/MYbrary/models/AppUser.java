@@ -1,7 +1,5 @@
 package com.revature.MYbrary.models;
 
-import java.util.Objects;
-
 public class AppUser extends Object {
 
     private String id;
