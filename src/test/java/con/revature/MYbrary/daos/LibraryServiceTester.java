@@ -21,7 +21,7 @@ import com.revature.MYbrary.models.AppUser;
 public class LibraryServiceTester {
     AppUserDAO userDAO = new AppUserDAO();
     LibraryDAO libraryDAO = new LibraryDAO();
-    UserService userService = new UserService(userDAO);
+    UserService userService = new UserService(userDAO, libraryDAO);
     LibraryService libraryService = new LibraryService(libraryDAO);
 
     @Test

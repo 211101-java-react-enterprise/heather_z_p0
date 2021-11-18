@@ -1,3 +1,8 @@
+/* TODO
+ *  - Persist the Library
+ *  - Set Active Library
+ */
+
 package com.revature.MYbrary.services;
 
 import com.revature.MYbrary.util.LinkedList;

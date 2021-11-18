@@ -81,6 +81,14 @@ public class LibraryDAO implements CrudDAO<Library> {
         }
     }
 
+    public Library getDefaultLibrary(String userId) {
+        LinkedList<Library> libraries = findAll(userId);
+
+        if (libraries != null) return libraries.get(0);
+        return null;
+
+    }
+
     @Override
     public Library findById(String id) {
         return null;

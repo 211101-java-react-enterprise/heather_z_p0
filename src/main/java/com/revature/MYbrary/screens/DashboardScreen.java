@@ -1,6 +1,14 @@
+/*
+ * Dashboard has all the basic features we want
+ * 1) Select Active Library (New Library on this screen, as the last item in the list above "Nevermind...").
+ *      - Nay, have Library Settings here and then Select Active Library in that screen, along with New and Modify Name
+ * 2) View Books (redirect to 1 if the user hasn't picked one this session)
+ * 3) Add New Book
+*/
 package com.revature.MYbrary.screens;
 
 import com.revature.MYbrary.models.AppUser;
+import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.ScreenRouter;
 
@@ -17,27 +25,8 @@ public class DashboardScreen extends Screen {
 
     @Override
     public void render() throws Exception {
-        // Welcome the user all personal-like
-        // Display all existing library names, or a message if there are none
+        Library library = userService.getSessionLibrary();
+        System.out.printf("~~~~~~~~ FLAG - DashboardScreen L.29 ~~~~~~~~\n%s", library.getName());
 
-        System.out.print("\n" +
-                " 1) New Library\n" +
-                " 2) View Libraries\n" +
-                " 3) Exit\n\n" +
-                "> ");
-        String userSelection = consoleReader.readLine();
-
-        switch (userSelection) {
-            case "1":
-                router.navigate("/new-library");
-                break;
-            case "2":
-                router.navigate("/libraries");
-                break;
-            case "3":
-                System.out.println("Fare thee well!");
-                shutdown();
-                break;
-        }
     }
 }

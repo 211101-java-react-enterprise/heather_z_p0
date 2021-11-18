@@ -16,7 +16,6 @@ public class BookNew extends Screen {
     }
 
     private BookDAO bookDAO = new BookDAO();
-    private BookService bookService = new BookService(bookDAO);
 
     @Override
     public void render() throws Exception {
@@ -33,7 +32,8 @@ public class BookNew extends Screen {
 
         // Library newLibrary = new Library(libraryName, userService.getSessionUser().getId());
         try {
-            bookService.createNewBook(newBook);
+            // bookService.createNewBook(newBook);
+            router.navigate("/books");
 
         } catch (Exception e) {
             e.printStackTrace();

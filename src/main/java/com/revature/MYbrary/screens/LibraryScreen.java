@@ -29,6 +29,7 @@ public class LibraryScreen extends Screen {
         Library activeLibrary = libraryService.promptLibrarySelection(user, consoleReader);
 
         System.out.printf("======== LIBRARY - %s ========", activeLibrary.getName());
+        // TODO - Don't make them select the option, assume they want to view books in libraries.
         System.out.print("\n" +
                 " 1) New Book\n" +
                 " 2) View Books\n" +

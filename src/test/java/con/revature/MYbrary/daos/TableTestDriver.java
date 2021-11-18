@@ -22,7 +22,7 @@ import com.revature.MYbrary.models.AppUser;
 public class TableTestDriver {
     AppUserDAO userDAO = new AppUserDAO();
     LibraryDAO libraryDAO = new LibraryDAO();
-    UserService userService = new UserService(userDAO);
+    UserService userService = new UserService(userDAO, libraryDAO);
     LibraryService libraryService = new LibraryService(libraryDAO);
 
 
@@ -82,6 +82,7 @@ public class TableTestDriver {
         }
     }
 
+    /*
     @Test
     public void populateAppUsers() {
         boolean user1 = userService.registerNewUser(new AppUser("Eagle Eyes Jamison","james@eagleeyes.biz","SeaEwe","oicu812"));
@@ -90,6 +91,7 @@ public class TableTestDriver {
 
         Assert.assertTrue(user1 && user2 && user3);
     }
+     */
 
     @Test
     public void populateLibraries() {
