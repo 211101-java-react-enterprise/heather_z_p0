@@ -62,7 +62,7 @@ public class BookService {
         return activeBook;
     }
 
-    public boolean updateCurrentPage(Book book, Integer newCurrentPage) {
+    public Book updateCurrentPage(Book book, Integer newCurrentPage) {
         return bookDAO.updateCurrentPage(book, newCurrentPage);
     }
 }

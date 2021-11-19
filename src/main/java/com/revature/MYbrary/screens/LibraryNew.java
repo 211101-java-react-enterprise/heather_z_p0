@@ -23,14 +23,15 @@ public class LibraryNew extends Screen {
         System.out.println("Please enter a name for your new Library.");
         System.out.print("LIBRARY NAME: ");
         String libraryName = consoleReader.readLine();
-        if (libraryName == null || libraryName == "") {
-            libraryName = "My Library";
+        if (libraryName.equals("") | libraryName.equals(null)) { // Provide default name when upon blank input
+            libraryName = userService.getSessionUser().getPersonalName() + "'s Library";
         }
 
         Library newLibrary = new Library(libraryName, userService.getSessionUser().getId());
         try {
-            libraryService.createNewLibrary(newLibrary);
-            router.navigate("/libraries");
+            Library createdLibrary = libraryDAO.save(newLibrary);
+            userService.setSessionLibrary(createdLibrary.getId());
+            router.navigate("/dashboard");
 
         } catch (Exception e) {
             e.printStackTrace();

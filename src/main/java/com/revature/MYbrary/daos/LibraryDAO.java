@@ -6,23 +6,23 @@ import com.revature.MYbrary.util.ConnectionFactory;
 import com.revature.MYbrary.util.LinkedList;
 import com.revature.MYbrary.util.List;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LibraryDAO implements CrudDAO<Library> {
 
     @Override
     public Library save(Library newLibrary) {
-
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             String sql = "insert into libraries (name, user_id) values (?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, newLibrary.getName());
             statement.setString(2, newLibrary.getUserId());
 
             int rowsInserted = statement.executeUpdate();
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                newLibrary.setId(rs.getInt(1));
+            }
 
             if (rowsInserted != 0) {
                 return newLibrary;
@@ -46,6 +46,7 @@ public class LibraryDAO implements CrudDAO<Library> {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Library library = new Library();
+                library.setId(rs.getInt("id"));
                 library.setName(rs.getString("name"));
                 library.setUserId(rs.getString("user_id"));
                 libraries.add(library);
@@ -68,6 +69,7 @@ public class LibraryDAO implements CrudDAO<Library> {
             while (rs.next()) {
                 Library library = new Library();
 
+                library.setId(rs.getInt("id"));
                 library.setName(rs.getString("name"));
                 library.setUserId(rs.getString("user_id"));
 
@@ -81,10 +83,38 @@ public class LibraryDAO implements CrudDAO<Library> {
         }
     }
 
+    public Library getDefaultLibrary(String userId) {
+        LinkedList<Library> libraries = findAll(userId);
+        if (libraries != null) return libraries.get(0);
+        return null;
+
+    }
+
     @Override
     public Library findById(String id) {
+        return findById(Integer.parseInt(id));
+    }
+
+    public Library findById(Integer id) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            String sql = "select * from libraries where id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Library library = new Library();
+                library.setId(rs.getInt("id"));
+                library.setName(rs.getString("name"));
+                library.setUserId(rs.getString("user_id"));
+                return library;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
+
 
     @Override
     public boolean update(Library updatedObj) {

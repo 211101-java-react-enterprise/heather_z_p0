@@ -1,7 +1,17 @@
+/*
+ * Dashboard has all the basic features we want
+ * 1) Select Active Library (New Library on this screen, as the last item in the list above "Nevermind...").
+ *      - Nay, have Library Settings here and then Select Active Library in that screen, along with New and Modify Name
+ * 2) View Books (redirect to 1 if the user hasn't picked one this session)
+ * 3) Add New Book
+*/
 package com.revature.MYbrary.screens;
 
 import com.revature.MYbrary.models.AppUser;
+import com.revature.MYbrary.models.Book;
+import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.UserService;
+import com.revature.MYbrary.util.LinkedList;
 import com.revature.MYbrary.util.ScreenRouter;
 
 import java.io.BufferedReader;
@@ -17,27 +27,32 @@ public class DashboardScreen extends Screen {
 
     @Override
     public void render() throws Exception {
-        // Welcome the user all personal-like
-        // Display all existing library names, or a message if there are none
+        Library library = userService.getSessionLibrary();
+        try {
+            LinkedList<Book> libraryBooks = library.getBooks();
+        } catch (Exception e) {
+            System.out.println("No books in library!");
+        }
 
-        System.out.print("\n" +
-                " 1) New Library\n" +
-                " 2) View Libraries\n" +
-                " 3) Exit\n\n" +
-                "> ");
-        String userSelection = consoleReader.readLine();
+        System.out.printf("~~~~~~~~ %s's Dashboard ~~~~~~~~\n", userService.getSessionUser().getPersonalName());
+        System.out.println(" 1) View Books\n 2) New Book\n 3) Change Libraries\n 4) Create a New Library");
+        System.out.print("> ");
+        String userInput = consoleReader.readLine();
 
-        switch (userSelection) {
+        switch (userInput) {
             case "1":
-                router.navigate("/new-library");
+                router.navigate("/select-book");
                 break;
             case "2":
-                router.navigate("/libraries");
+                router.navigate("/new-book");
                 break;
             case "3":
-                System.out.println("Fare thee well!");
-                shutdown();
+                router.navigate("/select-library");
+                break;
+            case "4":
+                router.navigate("/new-library");
                 break;
         }
+
     }
 }

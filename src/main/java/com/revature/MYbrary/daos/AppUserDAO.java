@@ -1,6 +1,7 @@
 package com.revature.MYbrary.daos;
 
 import com.revature.MYbrary.models.AppUser;
+import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.util.ConnectionFactory;
 import com.revature.MYbrary.util.LinkedList;
 import com.revature.MYbrary.util.List;
@@ -123,7 +124,7 @@ public class AppUserDAO implements CrudDAO<AppUser> {
     }
 
     @Override
-    public List<AppUser> findAll() {
+    public LinkedList<AppUser> findAll() {
         LinkedList<AppUser> users = new LinkedList<>();
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             String query = "select * from app_users";
