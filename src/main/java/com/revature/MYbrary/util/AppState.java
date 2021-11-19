@@ -34,11 +34,18 @@ public class AppState {
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
         router.addScreen(new LoginScreen(consoleReader, router, userService));
         router.addScreen(new DashboardScreen(consoleReader, router, userService));
+
         router.addScreen(new LibrarySelect(consoleReader, router, userService));
         router.addScreen(new LibraryNew(consoleReader, router, userService));
+
         router.addScreen(new BookScreen(consoleReader, router, userService));
         router.addScreen(new BookSelect(consoleReader, router, userService));
         router.addScreen(new BookNew(consoleReader, router, userService));
+        router.addScreen(new BookPageUpdate(consoleReader, router, userService));
+
+        router.addScreen(new AnnotationScreen(consoleReader, router, userService));
+
+        router.addScreen(new LoanScreen(consoleReader, router, userService));
     }
 
     public void startup() {

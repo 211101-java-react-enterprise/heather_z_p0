@@ -111,6 +111,16 @@ public class UserService {
         return sessionUser;
     }
 
+    public Library getDefaultLibrary() {
+        // LibraryDAO? Yes, select by user ID
+        return libraryDAO.getDefaultLibrary(sessionUser.getId());
+    }
+
+    public Library getDefaultLibrary(String id) {
+        // LibraryDAO? Yes, select by user ID
+        return libraryDAO.getDefaultLibrary(id);
+    }
+
     public Library getSessionLibrary() {
         return sessionLibrary;
     }

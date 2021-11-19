@@ -34,7 +34,7 @@ public class DashboardScreen extends Screen {
             System.out.println("No books in library!");
         }
 
-        System.out.printf("~~~~~~~~ %s's Library ~~~~~~~~\n", library.getName());
+        System.out.printf("~~~~~~~~ %s's Dashboard ~~~~~~~~\n", userService.getSessionUser().getPersonalName());
         System.out.println(" 1) View Books\n 2) New Book\n 3) Change Libraries\n 4) Create a New Library");
         System.out.print("> ");
         String userInput = consoleReader.readLine();

@@ -34,29 +34,32 @@ public class BookScreen extends Screen {
 
         // Also need to have a "view annotations" menu
 
-        System.out.printf("======== %s by %s ========\n", activeBook.getTitle().toUpperCase(), activeBook.getAuthor());
+        System.out.println(activeBook.getTitle().toUpperCase());
+        System.out.println("    by " + activeBook.getAuthor());
+        System.out.printf("\nOn page %d of %d\n\n", activeBook.getCurrentPage(), activeBook.getPageCount());
 
         System.out.print(" 1) Update Page\n" +
                 " 2) View Annotations\n" +
-                " 3) Back to Dashboard\n\n" +
+                " 3) New Annotation\n" +
+                " 4) Loan to Another User\n" +
+                " 5) Back to Dashboard\n\n" +
                 "> ");
         String userSelection = consoleReader.readLine();
 
         switch(userSelection) {
             case "1":
-                System.out.print("CURRENT PAGE: ");
-                String userInput = consoleReader.readLine();
-                try {
-                    Integer newPage = Integer.parseInt(userInput);
-                    bookDAO.updateCurrentPage(activeBook, newPage);
-                    router.navigate("/book");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                router.navigate("/update-page");
                 break;
             case "2":
-                router.navigate("/annotation-select");
+                router.navigate("/new-annotation");
+                break;
             case "3":
+                router.navigate("/select-annotation");
+                break;
+            case "4":
+                router.navigate("/loan");
+                break;
+            case "5":
                 System.out.println("Fare thee well!");
                 shutdown();
                 break;
