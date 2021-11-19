@@ -83,9 +83,10 @@ public class BookDAO implements CrudDAO<Book> {
             }
             return libraries;
         }  catch (SQLException e) {
+            System.out.println("~~~~~~~~ FLAG - BookDAO L.86 ~~~~~~~~");
             // TODO log this and throw our own custom exception to be caught in the service layer
-            e.printStackTrace();
-            return null;
+            // e.printStackTrace();
+            return libraries;
         }
     }
 

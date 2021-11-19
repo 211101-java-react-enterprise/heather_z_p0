@@ -8,8 +8,10 @@
 package com.revature.MYbrary.screens;
 
 import com.revature.MYbrary.models.AppUser;
+import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.UserService;
+import com.revature.MYbrary.util.LinkedList;
 import com.revature.MYbrary.util.ScreenRouter;
 
 import java.io.BufferedReader;
@@ -26,7 +28,28 @@ public class DashboardScreen extends Screen {
     @Override
     public void render() throws Exception {
         Library library = userService.getSessionLibrary();
-        System.out.printf("~~~~~~~~ FLAG - DashboardScreen L.29 ~~~~~~~~\n%s", library.getName());
+        try {
+            LinkedList<Book> libraryBooks = library.getBooks();
+        } catch (Exception e) {
+            System.out.println("No books in library!");
+        }
+
+        System.out.printf("~~~~~~~~ %s's Library ~~~~~~~~\n", library.getName());
+        System.out.println(" 1) View Books\n 2) Change Libraries\n 3) Create a New Library");
+        System.out.print("> ");
+        String userInput = consoleReader.readLine();
+
+        switch (userInput) {
+            case "1":
+                router.navigate("/books");
+                break;
+            case "2":
+                router.navigate("/libraries");
+                break;
+            case "3":
+                router.navigate("/new-library");
+                break;
+        }
 
     }
 }

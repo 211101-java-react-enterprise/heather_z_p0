@@ -5,11 +5,13 @@
 package com.revature.MYbrary.services;
 
 import com.revature.MYbrary.daos.AppUserDAO;
+import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
 import com.revature.MYbrary.exceptions.AuthenticationException;
 import com.revature.MYbrary.exceptions.InvalidRequestException;
 import com.revature.MYbrary.exceptions.ResourcePersistenceException;
 import com.revature.MYbrary.models.AppUser;
+import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
 
 public class UserService {
@@ -17,15 +19,19 @@ public class UserService {
     //?? Why is userDAO final but not sessionUser ??//
     private final AppUserDAO userDAO;
     private final LibraryDAO libraryDAO;
+    private final BookDAO bookDAO;
     private AppUser sessionUser;
     private Library sessionLibrary;
+    private Book sessionBook;
 
     // Constructor
-    public UserService(AppUserDAO userDAO, LibraryDAO libraryDAO) {
+    public UserService(AppUserDAO userDAO, LibraryDAO libraryDAO, BookDAO bookDAO) {
         this.userDAO = userDAO;
         this.libraryDAO = libraryDAO;
+        this.bookDAO = bookDAO;
         this.sessionUser = null;
         this.sessionLibrary = null;
+        this.sessionBook = null;
     }
 
     public boolean registerNewUser(AppUser newUser, Library newLibrary) {
@@ -83,6 +89,8 @@ public class UserService {
 
     public void logout() {
         sessionUser = null;
+        sessionLibrary = null;
+        sessionBook = null;
     }
 
     public boolean isSessionActive() {
@@ -107,7 +115,16 @@ public class UserService {
         return sessionLibrary;
     }
 
-    public void setSessionLibrary(Library sessionLibrary) {
-        this.sessionLibrary = sessionLibrary;
+    public void setSessionLibrary(Integer libraryId) {
+        System.out.println("~~~~~~~~ FLAG - UserService L.119 ~~~~~~~~\n" + libraryId);
+        this.sessionLibrary = libraryDAO.findById(libraryId);
+    }
+
+    public Book getSessionBook() {
+        return sessionBook;
+    }
+
+    public void setSessionBook(Integer bookId) {
+        this.sessionBook = bookDAO.findById(bookId);
     }
 }

@@ -1,6 +1,7 @@
 package con.revature.MYbrary.daos;
 
 import com.revature.MYbrary.daos.AppUserDAO;
+import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
 import com.revature.MYbrary.models.AppUser;
 import com.revature.MYbrary.services.UserService;
@@ -19,11 +20,12 @@ public class UserServiceTester {
     UserService sut;
     AppUserDAO mockDA0;
     LibraryDAO mockLibrary;
+    BookDAO mockBook;
 
     @Before
     public void testCaseSetup(){
         mockDA0 = mock(AppUserDAO.class);
-        sut = new UserService(mockDA0, mockLibrary);
+        sut = new UserService(mockDA0, mockLibrary, mockBook);
     }
 
     @Test

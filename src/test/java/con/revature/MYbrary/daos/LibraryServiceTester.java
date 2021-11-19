@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import com.revature.MYbrary.daos.LibraryDAO;
+import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.LibraryService;
 import org.junit.Assert;
@@ -21,7 +22,8 @@ import com.revature.MYbrary.models.AppUser;
 public class LibraryServiceTester {
     AppUserDAO userDAO = new AppUserDAO();
     LibraryDAO libraryDAO = new LibraryDAO();
-    UserService userService = new UserService(userDAO, libraryDAO);
+    BookDAO bookDAO = new BookDAO();
+    UserService userService = new UserService(userDAO, libraryDAO, bookDAO);
     LibraryService libraryService = new LibraryService(libraryDAO);
 
     @Test

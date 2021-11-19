@@ -1,7 +1,11 @@
 package com.revature.MYbrary.models;
 
+import com.revature.MYbrary.daos.BookDAO;
+import com.revature.MYbrary.util.LinkedList;
+
 public class Library extends Object {
 
+    private BookDAO bookDao = new BookDAO();
     private Integer id;
     private String name;
     private String user_id;
@@ -42,5 +46,9 @@ public class Library extends Object {
 
     public void setUserId(String user_id) {
         this.user_id = user_id;
+    }
+
+    public LinkedList<Book> getBooks() {
+        return bookDao.findAll(this.id);
     }
 }

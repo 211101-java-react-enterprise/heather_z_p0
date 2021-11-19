@@ -27,7 +27,10 @@ public class BookScreen extends Screen {
     @Override
     public void render() throws Exception {
         // Book activeBook = bookService.promptBookSelection(library.getId(), consoleReader);
-        Book activeBook = new Book();
+        Book activeBook = new Book(); // This will be in the User Service
+
+        // Lists all books
+        // Also need to have a "view annotations" menu
 
         System.out.printf("======== %s by %s ========"); //, activeBook.getTitle().toUpperCase(), activeBook.getAuthor());
 
