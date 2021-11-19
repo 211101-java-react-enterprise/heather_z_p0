@@ -70,6 +70,7 @@ public class LibraryDAO implements CrudDAO<Library> {
             while (rs.next()) {
                 Library library = new Library();
 
+                library.setId(rs.getInt("id"));
                 library.setName(rs.getString("name"));
                 library.setUserId(rs.getString("user_id"));
 

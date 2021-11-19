@@ -27,6 +27,8 @@ public class LibrarySelect extends Screen {
         Library activeLibrary = userService.getSessionLibrary();
         LinkedList<Library> libraries = libraryDAO.findAll(user.getId());
 
+        System.out.println("==== All Libraries ====");
+
         StringBuilder consoleOutput = new StringBuilder();
         for (int i = 0; i < libraries.size(); i++) {
             consoleOutput.append(i + 1);
@@ -38,10 +40,8 @@ public class LibrarySelect extends Screen {
         System.out.println(consoleOutput);
         System.out.print("> ");
         String userInput = consoleReader.readLine();
-
-        Library userSelection = libraries.get(Integer.parseInt(userInput) - 1);
-        System.out.println("~~~~~~~~ FLAG - LibrarySelect L.43 ~~~~~~~~\n" + userSelection.getId());
         try {
+            Library userSelection = libraries.get(Integer.parseInt(userInput) - 1);
             userService.setSessionLibrary(userSelection.getId());
             router.navigate("/dashboard");
         } catch (Exception e) {
