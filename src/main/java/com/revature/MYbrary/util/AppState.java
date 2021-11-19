@@ -37,6 +37,8 @@ public class AppState {
         router.addScreen(new LibrarySelect(consoleReader, router, userService));
         router.addScreen(new LibraryNew(consoleReader, router, userService));
         router.addScreen(new BookScreen(consoleReader, router, userService));
+        router.addScreen(new BookSelect(consoleReader, router, userService));
+        router.addScreen(new BookNew(consoleReader, router, userService));
     }
 
     public void startup() {

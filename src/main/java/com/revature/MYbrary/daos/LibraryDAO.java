@@ -12,7 +12,6 @@ public class LibraryDAO implements CrudDAO<Library> {
 
     @Override
     public Library save(Library newLibrary) {
-        // System.out.println("~~~~~~~~ FLAG - LibraryDAO L.18 ~~~~~~~~\n" + newLibrary.getName());
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             String sql = "insert into libraries (name, user_id) values (?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -21,7 +20,6 @@ public class LibraryDAO implements CrudDAO<Library> {
 
             int rowsInserted = statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
-            int generatedKey = 0;
             if (rs.next()) {
                 newLibrary.setId(rs.getInt(1));
             }
@@ -48,6 +46,7 @@ public class LibraryDAO implements CrudDAO<Library> {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Library library = new Library();
+                library.setId(rs.getInt("id"));
                 library.setName(rs.getString("name"));
                 library.setUserId(rs.getString("user_id"));
                 libraries.add(library);

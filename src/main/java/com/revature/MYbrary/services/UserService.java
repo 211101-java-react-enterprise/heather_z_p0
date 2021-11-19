@@ -116,7 +116,6 @@ public class UserService {
     }
 
     public void setSessionLibrary(Integer libraryId) {
-        System.out.println("~~~~~~~~ FLAG - UserService L.119 ~~~~~~~~\n" + libraryId);
         this.sessionLibrary = libraryDAO.findById(libraryId);
     }
 

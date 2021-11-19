@@ -7,10 +7,7 @@ import com.revature.MYbrary.util.ConnectionFactory;
 import com.revature.MYbrary.util.LinkedList;
 import com.revature.MYbrary.util.List;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class BookDAO implements CrudDAO<Book> {
 
@@ -18,18 +15,22 @@ public class BookDAO implements CrudDAO<Book> {
     public Book save(Book newBook) {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             String sql = "insert into books (title, author, page_count, current_page, library_id) values (?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql,  Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, newBook.getTitle());
             statement.setString(2, newBook.getAuthor());
             statement.setInt(3, newBook.getPageCount());;
             statement.setInt(4, newBook.getCurrentPage());
-            statement.setInt(4, newBook.getLibraryId());
+            statement.setInt(5, newBook.getLibraryId());
 
             int rowsInserted = statement.executeUpdate();
-
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                newBook.setId(rs.getInt(1));
+            }
             if (rowsInserted != 0) {
                 return newBook;
             }
+
         } catch (SQLException e) {
             // TODO log this and throw our own custom exception to be caught in the service layer
             e.printStackTrace();
@@ -43,11 +44,12 @@ public class BookDAO implements CrudDAO<Book> {
     public List findAll() {
         LinkedList<Book> libraries = new LinkedList<>();
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
-            String query = "select * from books";
+            String query = "select * from books;";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Book book = new Book();
+                book.setId(rs.getInt("id"));
                 book.setTitle(rs.getString("title"));
                 book.setAuthor(rs.getString("author"));
                 book.setPageCount(rs.getInt("page_count"));
@@ -65,28 +67,27 @@ public class BookDAO implements CrudDAO<Book> {
     }
 
     public LinkedList<Book> findAll(Integer libraryId) {
-        LinkedList<Book> libraries = new LinkedList<>();
+        LinkedList<Book> books = new LinkedList<>();
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             String query = "select * from books where library_id = '" + libraryId + "';";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Book book = new Book();
-
+                book.setId(rs.getInt("id"));
                 book.setTitle(rs.getString("title"));
                 book.setAuthor(rs.getString("author"));
                 book.setPageCount(rs.getInt("page_count"));
                 book.setCurrentPage(rs.getInt("current_page"));
                 book.setLibraryId(rs.getInt("library_id"));
 
-                libraries.add(book);
+                books.add(book);
             }
-            return libraries;
+            return books;
         }  catch (SQLException e) {
-            System.out.println("~~~~~~~~ FLAG - BookDAO L.86 ~~~~~~~~");
             // TODO log this and throw our own custom exception to be caught in the service layer
-            // e.printStackTrace();
-            return libraries;
+            e.printStackTrace();
+            return books;
         }
     }
 
@@ -96,6 +97,24 @@ public class BookDAO implements CrudDAO<Book> {
     }
 
     public Book findById(Integer id) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            String sql = "select * from books where id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Book book = new Book();
+                book.setId(rs.getInt("id"));
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setPageCount(rs.getInt("page_count"));
+                book.setCurrentPage(rs.getInt("current_page"));
+                book.setLibraryId(rs.getInt("library_id"));
+                return book;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

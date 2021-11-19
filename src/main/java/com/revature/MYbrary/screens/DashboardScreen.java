@@ -35,18 +35,21 @@ public class DashboardScreen extends Screen {
         }
 
         System.out.printf("~~~~~~~~ %s's Library ~~~~~~~~\n", library.getName());
-        System.out.println(" 1) View Books\n 2) Change Libraries\n 3) Create a New Library");
+        System.out.println(" 1) View Books\n 2) New Book\n 3) Change Libraries\n 4) Create a New Library");
         System.out.print("> ");
         String userInput = consoleReader.readLine();
 
         switch (userInput) {
             case "1":
-                router.navigate("/books");
+                router.navigate("/select-book");
                 break;
             case "2":
-                router.navigate("/libraries");
+                router.navigate("/new-book");
                 break;
             case "3":
+                router.navigate("/select-library");
+                break;
+            case "4":
                 router.navigate("/new-library");
                 break;
         }
