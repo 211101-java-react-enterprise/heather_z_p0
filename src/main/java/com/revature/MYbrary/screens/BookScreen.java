@@ -51,17 +51,16 @@ public class BookScreen extends Screen {
                 router.navigate("/update-page");
                 break;
             case "2":
-                router.navigate("/new-annotation");
+                router.navigate("/select-annotation");
                 break;
             case "3":
-                router.navigate("/select-annotation");
+                router.navigate("/new-annotation");
                 break;
             case "4":
                 router.navigate("/loan");
                 break;
             case "5":
-                System.out.println("Fare thee well!");
-                shutdown();
+                router.navigate("/dashboard");
                 break;
         }
 

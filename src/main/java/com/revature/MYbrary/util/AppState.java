@@ -1,5 +1,6 @@
 package com.revature.MYbrary.util;
 
+import com.revature.MYbrary.daos.AnnotationDAO;
 import com.revature.MYbrary.daos.AppUserDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
 import com.revature.MYbrary.daos.BookDAO;
@@ -29,7 +30,8 @@ public class AppState {
         AppUserDAO userDAO = new AppUserDAO();
         LibraryDAO libraryDAO = new LibraryDAO();
         BookDAO bookDAO = new BookDAO();
-        UserService userService = new UserService(userDAO, libraryDAO, bookDAO);
+        AnnotationDAO annotationDAO = new AnnotationDAO();
+        UserService userService = new UserService(userDAO, libraryDAO, bookDAO, annotationDAO);
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
         router.addScreen(new LoginScreen(consoleReader, router, userService));

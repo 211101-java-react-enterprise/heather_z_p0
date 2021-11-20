@@ -65,6 +65,7 @@ public class LibraryDAO implements CrudDAO<Library> {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             String query = "select * from libraries where user_id = '" + userId + "';";
             PreparedStatement statement = connection.prepareStatement(query);
+
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Library library = new Library();

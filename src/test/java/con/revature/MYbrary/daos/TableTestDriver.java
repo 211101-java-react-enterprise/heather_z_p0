@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import com.revature.MYbrary.daos.AnnotationDAO;
 import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
 import com.revature.MYbrary.models.Library;
@@ -24,7 +25,8 @@ public class TableTestDriver {
     AppUserDAO userDAO = new AppUserDAO();
     LibraryDAO libraryDAO = new LibraryDAO();
     BookDAO bookDAO = new BookDAO();
-    UserService userService = new UserService(userDAO, libraryDAO, bookDAO);
+    AnnotationDAO annotationDAO = new AnnotationDAO();
+    UserService userService = new UserService(userDAO, libraryDAO, bookDAO, annotationDAO);
     LibraryService libraryService = new LibraryService(libraryDAO);
 
 

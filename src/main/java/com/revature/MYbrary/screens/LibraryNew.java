@@ -16,7 +16,6 @@ public class LibraryNew extends Screen {
     }
 
     private LibraryDAO libraryDAO = new LibraryDAO();
-    private LibraryService libraryService = new LibraryService(libraryDAO);
 
     @Override
     public void render() throws Exception {

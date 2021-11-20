@@ -1,6 +1,7 @@
 package com.revature.MYbrary.screens;
 
 import com.revature.MYbrary.daos.BookDAO;
+import com.revature.MYbrary.models.Annotation;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.ScreenRouter;
 
@@ -17,7 +18,19 @@ public class AnnotationScreen extends Screen{
 
     @Override
     public void render() throws Exception {
-        // List them all as 1) p.### - startingWords ... endingWords
-        // So we get all the Annotations
+        Annotation activeAnnotation = userService.getSessionAnnotation();
+
+        System.out.println(activeAnnotation.getStartingWords() + " ... " + activeAnnotation.getEndingWords());
+        System.out.println(activeAnnotation.getStartingPage() + "-" + activeAnnotation.getEndingPage());
+        System.out.println(activeAnnotation.getNotes());
+        System.out.print("\n\n");
+
+        System.out.print("1) Go back\n> ");
+        String userSelection = consoleReader.readLine();
+
+        switch(userSelection) {
+            case "1":
+                router.navigate("/book");
+        }
     }
 }
