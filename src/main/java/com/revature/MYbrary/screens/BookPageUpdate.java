@@ -28,8 +28,7 @@ public class BookPageUpdate extends Screen {
             userService.setSessionBook(activeBook.getId());
             router.navigate("/book");
         } catch (SQLException e) {
-            // This gives an error no matter what???
-            // e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

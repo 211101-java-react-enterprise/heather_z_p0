@@ -115,6 +115,19 @@ public class LibraryDAO implements CrudDAO<Library> {
         return null;
     }
 
+    public void moveBookToNewLibrary(Integer bookId, Integer libraryId) {
+        try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
+
+            String query = "update books set library_id = '" + libraryId + "' where id = '" + bookId + "';";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO log this and throw our own custom exception to be caught in the service layer
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public boolean update(Library updatedObj) {

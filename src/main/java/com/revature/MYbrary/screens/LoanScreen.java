@@ -4,6 +4,7 @@ import com.revature.MYbrary.daos.AppUserDAO;
 import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
 import com.revature.MYbrary.models.AppUser;
+import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.LinkedList;
@@ -24,7 +25,9 @@ public class LoanScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
         LinkedList<AppUser> users = userDAO.findAll();
+        Book thisBook = userService.getSessionBook();
 
         StringBuilder consoleOutput = new StringBuilder();
         for (int i = 0; i < users.size(); i++) {
@@ -37,9 +40,15 @@ public class LoanScreen extends Screen {
         System.out.println(consoleOutput);
         System.out.print("> ");
         String userInput = consoleReader.readLine();
+
         AppUser userSelection = users.get(Integer.parseInt(userInput) - 1);
         // Then we set the library_id field of the active book to the new value.
+        // Do some kind of confirmation first...
         Library selectedUserDefaultLibrary = libraryDAO.getDefaultLibrary(userSelection.getId());
-        userService.getSessionBook().setLibraryId(selectedUserDefaultLibrary.getId());
+        System.out.println("~~~~~~~~ FLAG - LoanScreen L.46 ~~~~~~~~\n" + selectedUserDefaultLibrary.getName());
+        Book newBook = new Book(thisBook.getTitle(), thisBook.getAuthor(), thisBook.getPageCount(), 0, selectedUserDefaultLibrary.getId());
+        bookDAO.save(newBook);
+        System.out.println("Ok, your book has been lent to " + userSelection.getUsername());
+        router.navigate("/dashboard");
     }
 }

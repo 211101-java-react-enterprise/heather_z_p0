@@ -44,6 +44,8 @@ public class AppState {
         router.addScreen(new BookPageUpdate(consoleReader, router, userService));
 
         router.addScreen(new AnnotationScreen(consoleReader, router, userService));
+        router.addScreen(new AnnotationSelect(consoleReader, router, userService));
+        router.addScreen(new AnnotationNew(consoleReader, router, userService));
 
         router.addScreen(new LoanScreen(consoleReader, router, userService));
     }

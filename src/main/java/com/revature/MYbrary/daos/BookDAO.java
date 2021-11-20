@@ -140,12 +140,11 @@ public class BookDAO implements CrudDAO<Book> {
             return book;
 
         }  catch (SQLException e) {
-//            // TODO log this and throw our own custom exception to be caught in the service layer
-//            e.printStackTrace();
+              // TODO log this and throw our own custom exception to be caught in the service layer
+              e.printStackTrace();
               return book;
         }
 
     }
-
 
 }
