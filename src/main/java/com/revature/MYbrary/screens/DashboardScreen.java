@@ -35,7 +35,7 @@ public class DashboardScreen extends Screen {
         }
 
         System.out.printf("~~~~~~~~ %s's Dashboard ~~~~~~~~\n", userService.getSessionUser().getPersonalName());
-        System.out.println(" 1) View Books\n 2) New Book\n 3) Change Libraries\n 4) Create a New Library");
+        System.out.println(" 1) View Books\n 2) New Book\n 3) Change Libraries\n 4) Create a New Library\n 5) Logout");
         System.out.print("> ");
         String userInput = consoleReader.readLine();
 
@@ -52,6 +52,10 @@ public class DashboardScreen extends Screen {
             case "4":
                 router.navigate("/new-library");
                 break;
+            case "5":
+                System.out.println("Fare thee well!");
+                userService.logout();
+                router.navigate("/welcome");
         }
 
     }

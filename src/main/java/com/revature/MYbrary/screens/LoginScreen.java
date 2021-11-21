@@ -4,14 +4,19 @@ import com.revature.MYbrary.exceptions.AuthenticationException;
 import com.revature.MYbrary.models.AppUser;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.ScreenRouter;
+import com.revature.MYbrary.util.Logger;
 
 import java.io.BufferedReader;
 
 public class LoginScreen extends Screen {
+
     private final UserService userService;
+    private final Logger logger;
+
     public LoginScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("LoginScreen", "/login", consoleReader, router);
         this.userService = userService;
+        logger = Logger.getLogger(false);
     }
 
     @Override
@@ -24,7 +29,8 @@ public class LoginScreen extends Screen {
 
         try {
             userService.authenticateUser(username, password);
-            System.out.println("Login successful! Redirecting to your dashboard...\n\n\n");
+            logger.log("USER AUTHENTICATED: " + username);
+            System.out.println("Login successful! Redirecting to your dashboard...\n");
             router.navigate("/dashboard");
         } catch (AuthenticationException e) {
             System.out.println("Incorrect credentials provided! No matching user account found.");

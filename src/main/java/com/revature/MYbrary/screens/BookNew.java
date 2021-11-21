@@ -3,7 +3,6 @@ package com.revature.MYbrary.screens;
 import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
-import com.revature.MYbrary.services.BookService;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.ScreenRouter;
 

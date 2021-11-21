@@ -8,14 +8,19 @@ import com.revature.MYbrary.models.AppUser;
 import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.ScreenRouter;
+import com.revature.MYbrary.util.Logger;
 
 import java.io.BufferedReader;
 
 public class RegisterScreen extends Screen {
+
     private final UserService userService;
+    private final Logger logger;
+
     public RegisterScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("RegisterScreen", "/register", consoleReader, router);
         this.userService = userService;
+        logger = Logger.getLogger(false);
     }
 
     @Override
@@ -32,15 +37,18 @@ public class RegisterScreen extends Screen {
         String password = consoleReader.readLine();
         System.out.print("YOUR LIBRARY NAME: ");
         String libraryName = consoleReader.readLine();
-
+        if (libraryName.equals("") | libraryName.equals(null)) { // Provide default name when upon blank input
+            libraryName = userService.getSessionUser().getPersonalName() + "'s Library";
+        }
 
         AppUser newUser = new AppUser(personalName, email, username, password);
         Library newLibrary = new Library(libraryName, "orphan");
 
         try {
             userService.registerNewUser(newUser, newLibrary);
+            logger.log("NEW USER REGISTERED: " + newUser.getUsername());
             System.out.println("Your user account has been successfully registered!\n" +
-                    "Redirecting you to the Login page...\n\n\n");
+                    "Redirecting you to the Login page...\n");
             router.navigate("/login");
         } catch (Exception e) {
             e.printStackTrace();

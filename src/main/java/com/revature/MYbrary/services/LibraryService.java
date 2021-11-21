@@ -23,54 +23,6 @@ public class LibraryService {
         this.libraryDAO = libraryDAO;
     }
 
-    public boolean createNewLibrary (Library newLibrary) {
-        Library createdLibrary = libraryDAO.save(newLibrary);
-        if (createdLibrary != null) {
-            return true;
-        } else {
-            throw new ResourcePersistenceException("The library could not be persisted to the datasource!");
-        }
-    }
 
-    // TODO - Fix Me!
-    public Library getLibrary() {
-        return activeLibrary;
-    }
 
-    public LinkedList<Library> getUserLibraries(String userId) {
-        LinkedList<Library> userLibraries = libraryDAO.findAll(userId);
-
-        if (userLibraries != null) {
-            return userLibraries;
-        } else {
-            return null;
-        }
-
-    }
-
-    public Library promptLibrarySelection(AppUser user, BufferedReader consoleReader) {
-        Library activeLibrary = null;
-        StringBuilder consoleOutput = new StringBuilder();
-        LinkedList<Library> userLibraries = getUserLibraries(user.getId());
-
-        for (int i = 0; i < userLibraries.size(); i++) {
-            consoleOutput.append(i + 1);
-            consoleOutput.append(") ");
-            Library thisLibrary = userLibraries.get(i);
-            consoleOutput.append(thisLibrary.getName());
-            consoleOutput.append("\n");
-        }
-        System.out.println(consoleOutput);
-        System.out.print("> ");
-        try {
-            String userInput = consoleReader.readLine();
-            int userSelection = Integer.parseInt(userInput);
-            activeLibrary = userLibraries.get(userSelection - 1);
-        } catch (Exception e) {
-            System.out.println("~~~~ ERROR ~~~~ Trouble with reading console input");
-            e.printStackTrace();
-        }
-
-        return activeLibrary;
-    }
 }

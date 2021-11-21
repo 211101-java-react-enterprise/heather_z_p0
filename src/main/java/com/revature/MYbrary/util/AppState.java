@@ -14,17 +14,21 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 ////////////////////// DEBUGGING COMMENT TEMPLATE ///////////////////////
-// System.out.println("~~~~ FLAG - LibraryDAO - L63 ~~~~\n" + userId); //
+// System.out.println("~~~~ FLAG - FileName - L## ~~~~\n" + variable); //
 /////////////////////////////////////////////////////////////////////////
 
 public class AppState {
 
+    private final Logger logger;
     private static boolean appRunning; //
     private final ScreenRouter router;
 
     public AppState() {
+        logger = Logger.getLogger(false);
         appRunning = true;
         router = new ScreenRouter();
+
+        logger.log("Initializing via AppState...");
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
         AppUserDAO userDAO = new AppUserDAO();
@@ -53,6 +57,7 @@ public class AppState {
     }
 
     public void startup() {
+        logger.log("Routing user to /welcome...");
         try {
             while(appRunning) {
                 router.navigate("/welcome");

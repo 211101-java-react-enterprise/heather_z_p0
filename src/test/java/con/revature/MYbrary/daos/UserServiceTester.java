@@ -32,6 +32,7 @@ public class UserServiceTester {
 
     @Test
     public void test_registerNewUser_returnsTrue(){
+
         AppUser test = new AppUser("Tim Testerino","test@example.com","TINYtim","NeverYouMind");
     }
 }

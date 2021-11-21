@@ -1,19 +1,11 @@
 package com.revature.MYbrary.screens;
 
-import com.revature.MYbrary.daos.LibraryDAO;
-import com.revature.MYbrary.models.AppUser;
-import com.revature.MYbrary.models.Library;
-import com.revature.MYbrary.services.BookService;
-import com.revature.MYbrary.services.LibraryService;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.ScreenRouter;
 import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.models.Book;
 
-import static com.revature.MYbrary.util.AppState.shutdown;
-
 import java.io.BufferedReader;
-import java.sql.SQLException;
 
 public class BookScreen extends Screen {
     private final UserService userService;
