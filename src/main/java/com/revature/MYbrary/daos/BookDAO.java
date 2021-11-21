@@ -132,21 +132,19 @@ public class BookDAO implements CrudDAO<Book> {
 
     public Book updateCurrentPage(Book book, Integer newCurrentPage) {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
-            System.out.println("~~~~~~~~ FLAG - BookDAO L.135 ~~~~~~~~\n" + book.getId());
+            // System.out.println("~~~~~~~~ FLAG - BookDAO L.135 ~~~~~~~~\n" + book.getId());
             String query = "update books set current_page = '" + newCurrentPage + "' where id = '" + book.getId() + "';";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.executeQuery();
-
+            statement.executeUpdate();
 
             return book;
 
         }  catch (SQLException e) {
-            // TODO log this and throw our own custom exception to be caught in the service layer
-            e.printStackTrace();
-            return null;
+              // TODO log this and throw our own custom exception to be caught in the service layer
+              e.printStackTrace();
+              return book;
         }
 
     }
-
 
 }

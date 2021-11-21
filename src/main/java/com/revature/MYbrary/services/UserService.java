@@ -4,39 +4,42 @@
 
 package com.revature.MYbrary.services;
 
+import com.revature.MYbrary.daos.AnnotationDAO;
 import com.revature.MYbrary.daos.AppUserDAO;
 import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
 import com.revature.MYbrary.exceptions.AuthenticationException;
 import com.revature.MYbrary.exceptions.InvalidRequestException;
 import com.revature.MYbrary.exceptions.ResourcePersistenceException;
+import com.revature.MYbrary.models.Annotation;
 import com.revature.MYbrary.models.AppUser;
 import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
 
 public class UserService {
 
-    //?? Why is userDAO final but not sessionUser ??//
     private final AppUserDAO userDAO;
     private final LibraryDAO libraryDAO;
     private final BookDAO bookDAO;
+    private final AnnotationDAO annotationDAO;
     private AppUser sessionUser;
     private Library sessionLibrary;
     private Book sessionBook;
+    private Annotation sessionAnnotation;
 
     // Constructor
-    public UserService(AppUserDAO userDAO, LibraryDAO libraryDAO, BookDAO bookDAO) {
+    public UserService(AppUserDAO userDAO, LibraryDAO libraryDAO, BookDAO bookDAO, AnnotationDAO annotationDAO) {
         this.userDAO = userDAO;
         this.libraryDAO = libraryDAO;
         this.bookDAO = bookDAO;
+        this.annotationDAO = annotationDAO;
         this.sessionUser = null;
         this.sessionLibrary = null;
         this.sessionBook = null;
+        this.sessionAnnotation = null;
     }
 
     public boolean registerNewUser(AppUser newUser, Library newLibrary) {
-        // TODO - Add New Library step to the registration process
-
         if (!isUserValid(newUser)) {
             throw new InvalidRequestException("Invalid user data provided!");
         }
@@ -112,12 +115,10 @@ public class UserService {
     }
 
     public Library getDefaultLibrary() {
-        // LibraryDAO? Yes, select by user ID
         return libraryDAO.getDefaultLibrary(sessionUser.getId());
     }
 
     public Library getDefaultLibrary(String id) {
-        // LibraryDAO? Yes, select by user ID
         return libraryDAO.getDefaultLibrary(id);
     }
 
@@ -135,5 +136,13 @@ public class UserService {
 
     public void setSessionBook(Integer bookId) {
         this.sessionBook = bookDAO.findById(bookId);
+    }
+
+    public Annotation getSessionAnnotation() {
+        return sessionAnnotation;
+    }
+
+    public void setSessionAnnotation(Integer annotationId) {
+        this.sessionAnnotation = annotationDAO.findById(annotationId);
     }
 }

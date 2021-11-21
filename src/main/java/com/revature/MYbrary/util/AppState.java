@@ -1,5 +1,6 @@
 package com.revature.MYbrary.util;
 
+import com.revature.MYbrary.daos.AnnotationDAO;
 import com.revature.MYbrary.daos.AppUserDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
 import com.revature.MYbrary.daos.BookDAO;
@@ -13,23 +14,28 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 ////////////////////// DEBUGGING COMMENT TEMPLATE ///////////////////////
-// System.out.println("~~~~ FLAG - LibraryDAO - L63 ~~~~\n" + userId); //
+// System.out.println("~~~~ FLAG - FileName - L## ~~~~\n" + variable); //
 /////////////////////////////////////////////////////////////////////////
 
 public class AppState {
 
+    private final Logger logger;
     private static boolean appRunning; //
     private final ScreenRouter router;
 
     public AppState() {
+        logger = Logger.getLogger(false);
         appRunning = true;
         router = new ScreenRouter();
+
+        logger.log("Initializing via AppState...");
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
         AppUserDAO userDAO = new AppUserDAO();
         LibraryDAO libraryDAO = new LibraryDAO();
         BookDAO bookDAO = new BookDAO();
-        UserService userService = new UserService(userDAO, libraryDAO, bookDAO);
+        AnnotationDAO annotationDAO = new AnnotationDAO();
+        UserService userService = new UserService(userDAO, libraryDAO, bookDAO, annotationDAO);
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
         router.addScreen(new LoginScreen(consoleReader, router, userService));
@@ -44,11 +50,14 @@ public class AppState {
         router.addScreen(new BookPageUpdate(consoleReader, router, userService));
 
         router.addScreen(new AnnotationScreen(consoleReader, router, userService));
+        router.addScreen(new AnnotationSelect(consoleReader, router, userService));
+        router.addScreen(new AnnotationNew(consoleReader, router, userService));
 
         router.addScreen(new LoanScreen(consoleReader, router, userService));
     }
 
     public void startup() {
+        logger.log("Placing user in router flow...");
         try {
             while(appRunning) {
                 router.navigate("/welcome");

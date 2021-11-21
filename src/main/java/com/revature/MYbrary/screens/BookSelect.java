@@ -6,16 +6,22 @@ import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.LinkedList;
+import com.revature.MYbrary.util.Logger;
 import com.revature.MYbrary.util.ScreenRouter;
 
 import java.io.BufferedReader;
 
 public class BookSelect extends Screen {
+
     private final UserService userService;
+    private final Logger logger;
+
     public BookSelect(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("BookSelect", "/select-book", consoleReader, router);
         this.userService = userService;
+        logger = Logger.getLogger(false);
     }
+
     private BookDAO bookDAO = new BookDAO();
 
     @Override
@@ -41,13 +47,19 @@ public class BookSelect extends Screen {
         System.out.println(consoleOutput);
         System.out.print("> ");
         String userInput = consoleReader.readLine();
+
         try {
-            Book userSelection = books.get(Integer.parseInt(userInput) - 1);
+            Integer selectedBookId = Integer.parseInt(userInput) - 1;
+            Book userSelection = books.get(selectedBookId);
             userService.setSessionBook(userSelection.getId());
+            logger.log("Book ID " + selectedBookId + " is now the active Book");
             router.navigate("/book");
-        } catch (Exception e) {
-            System.out.println("~~~~ ERROR ~~~~ Trouble with reading console input");
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            System.out.println("Input could not be interpreted as an Integer.");
+            router.navigate("/dashboard");
+        } catch (RuntimeException e) {
+            System.out.println("Selection could not be found in the above list.");
+            router.navigate("/dashboard");
         }
 
     }

@@ -3,17 +3,19 @@ package com.revature.MYbrary.screens;
 import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
-import com.revature.MYbrary.services.BookService;
 import com.revature.MYbrary.services.UserService;
+import com.revature.MYbrary.util.Logger;
 import com.revature.MYbrary.util.ScreenRouter;
 
 import java.io.BufferedReader;
 
 public class BookNew extends Screen {
     private UserService userService;
+    private Logger logger;
     public BookNew(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("BookNew", "/new-book", consoleReader, router);
         this.userService = userService;
+        logger = Logger.getLogger(false);
     }
 
     private BookDAO bookDAO = new BookDAO();
@@ -36,10 +38,11 @@ public class BookNew extends Screen {
         try {
             Book createdBook = bookDAO.save(newBook);
             userService.setSessionBook(createdBook.getId());
+            logger.log(createdBook.getTitle() + " has been created for " + userService.getSessionUser().getUsername() + " with ID " + createdBook.getId());
             router.navigate("/book");
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            System.out.println("pageCount could not be converted to an Integer. Check your inputs and try again. ");
+            router.navigate("/dashboard");
         }
     }
 }

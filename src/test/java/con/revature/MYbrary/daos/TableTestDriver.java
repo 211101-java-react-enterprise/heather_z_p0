@@ -1,31 +1,25 @@
 package con.revature.MYbrary.daos;
 
-import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
 
+import com.revature.MYbrary.daos.AnnotationDAO;
 import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
-import com.revature.MYbrary.models.Library;
-import com.revature.MYbrary.services.LibraryService;
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.revature.MYbrary.util.ConnectionFactory;
 import com.revature.MYbrary.util.LinkedList;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.daos.AppUserDAO;
-import com.revature.MYbrary.models.AppUser;
 
 public class TableTestDriver {
     AppUserDAO userDAO = new AppUserDAO();
     LibraryDAO libraryDAO = new LibraryDAO();
     BookDAO bookDAO = new BookDAO();
-    UserService userService = new UserService(userDAO, libraryDAO, bookDAO);
-    LibraryService libraryService = new LibraryService(libraryDAO);
+    AnnotationDAO annotationDAO = new AnnotationDAO();
+    UserService userService = new UserService(userDAO, libraryDAO, bookDAO, annotationDAO);
 
 
     @Test
@@ -93,7 +87,7 @@ public class TableTestDriver {
 
         Assert.assertTrue(user1 && user2 && user3);
     }
-     */
+
 
     @Test
     public void populateLibraries() {
@@ -101,4 +95,5 @@ public class TableTestDriver {
 
         Assert.assertTrue(library1);
     }
+     */
 }

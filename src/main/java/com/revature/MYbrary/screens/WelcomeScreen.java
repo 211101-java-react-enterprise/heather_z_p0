@@ -45,6 +45,9 @@ public class WelcomeScreen extends Screen {
                 System.out.println("Fare thee well!");
                 shutdown();
                 break;
+            default:
+                System.out.println("No valid option selected. Please try again.");
+                router.navigate("/welcome");
         }
     }
 }
