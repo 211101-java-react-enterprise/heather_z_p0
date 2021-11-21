@@ -57,7 +57,7 @@ public class AppState {
     }
 
     public void startup() {
-        logger.log("Routing user to /welcome...");
+        logger.log("Placing user in router flow...");
         try {
             while(appRunning) {
                 router.navigate("/welcome");

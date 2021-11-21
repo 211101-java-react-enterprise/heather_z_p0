@@ -30,6 +30,7 @@ public class AnnotationScreen extends Screen{
 
         switch(userSelection) {
             case "1":
+            default:
                 router.navigate("/book");
         }
     }

@@ -37,12 +37,13 @@ public class RegisterScreen extends Screen {
         String password = consoleReader.readLine();
         System.out.print("YOUR LIBRARY NAME: ");
         String libraryName = consoleReader.readLine();
+
         if (libraryName.equals("") | libraryName.equals(null)) { // Provide default name when upon blank input
             libraryName = userService.getSessionUser().getPersonalName() + "'s Library";
         }
 
         AppUser newUser = new AppUser(personalName, email, username, password);
-        Library newLibrary = new Library(libraryName, "orphan");
+        Library newLibrary = new Library(libraryName, userService.getSessionUser().getId());
 
         try {
             userService.registerNewUser(newUser, newLibrary);
@@ -51,7 +52,8 @@ public class RegisterScreen extends Screen {
                     "Redirecting you to the Login page...\n");
             router.navigate("/login");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Could not register user as input!");
+            router.navigate("/welcome");
         }
 
     }

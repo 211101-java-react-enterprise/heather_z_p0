@@ -24,8 +24,6 @@ public class BookScreen extends Screen {
             router.navigate("/book-select"); // If they get to this page without an active book, kick them back to the selection menu.
         }
 
-        // Also need to have a "view annotations" menu
-
         System.out.println(activeBook.getTitle().toUpperCase());
         System.out.println("    by " + activeBook.getAuthor());
         System.out.printf("\nOn page %d of %d\n\n", activeBook.getCurrentPage(), activeBook.getPageCount());
@@ -54,6 +52,9 @@ public class BookScreen extends Screen {
             case "5":
                 router.navigate("/dashboard");
                 break;
+            default:
+                System.out.println("Selection could not be parsed as input. Please type a displayed number. ");
+                router.navigate("/book");
         }
 
 

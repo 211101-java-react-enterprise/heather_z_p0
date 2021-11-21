@@ -34,6 +34,7 @@ public class LoginScreen extends Screen {
             router.navigate("/dashboard");
         } catch (AuthenticationException e) {
             System.out.println("Incorrect credentials provided! No matching user account found.");
+            router.navigate("/welcome");
         }
     }
 }

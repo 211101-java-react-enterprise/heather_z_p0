@@ -4,19 +4,21 @@ import com.revature.MYbrary.daos.LibraryDAO;
 import com.revature.MYbrary.models.AppUser;
 import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.UserService;
-import com.revature.MYbrary.services.LibraryService;
 import com.revature.MYbrary.util.LinkedList;
+import com.revature.MYbrary.util.Logger;
 import com.revature.MYbrary.util.ScreenRouter;
-
-import static com.revature.MYbrary.util.AppState.shutdown;
 
 import java.io.BufferedReader;
 
 public class LibrarySelect extends Screen {
+
     private final UserService userService;
+    private final Logger logger;
+
     public LibrarySelect(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("LibrarySelect", "/select-library", consoleReader, router);
         this.userService = userService;
+        logger = Logger.getLogger(false);
     }
 
     LibraryDAO libraryDAO = new LibraryDAO();
@@ -40,13 +42,19 @@ public class LibrarySelect extends Screen {
         System.out.println(consoleOutput);
         System.out.print("> ");
         String userInput = consoleReader.readLine();
+
         try {
-            Library userSelection = libraries.get(Integer.parseInt(userInput) - 1);
+            Integer selectedLibraryId = Integer.parseInt(userInput) - 1;
+            Library userSelection = libraries.get(selectedLibraryId);
             userService.setSessionLibrary(userSelection.getId());
+            logger.log("Library ID " + selectedLibraryId + " is now the active Library");
             router.navigate("/dashboard");
-        } catch (Exception e) {
-            System.out.println("~~~~ ERROR ~~~~ Trouble with reading console input");
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            System.out.println("Input could not be interpreted as an Integer.");
+            router.navigate("/dashboard");
+        } catch (RuntimeException e) {
+            System.out.println("Selection could not be found in the above list.");
+            router.navigate("/dashboard");
         }
 
     }

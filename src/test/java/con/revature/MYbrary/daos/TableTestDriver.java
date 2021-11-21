@@ -1,25 +1,18 @@
 package con.revature.MYbrary.daos;
 
-import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
 
 import com.revature.MYbrary.daos.AnnotationDAO;
 import com.revature.MYbrary.daos.BookDAO;
 import com.revature.MYbrary.daos.LibraryDAO;
-import com.revature.MYbrary.models.Library;
-import com.revature.MYbrary.services.LibraryService;
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.revature.MYbrary.util.ConnectionFactory;
 import com.revature.MYbrary.util.LinkedList;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.daos.AppUserDAO;
-import com.revature.MYbrary.models.AppUser;
 
 public class TableTestDriver {
     AppUserDAO userDAO = new AppUserDAO();
@@ -27,7 +20,6 @@ public class TableTestDriver {
     BookDAO bookDAO = new BookDAO();
     AnnotationDAO annotationDAO = new AnnotationDAO();
     UserService userService = new UserService(userDAO, libraryDAO, bookDAO, annotationDAO);
-    LibraryService libraryService = new LibraryService(libraryDAO);
 
 
     @Test

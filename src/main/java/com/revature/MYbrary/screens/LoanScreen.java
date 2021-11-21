@@ -8,6 +8,7 @@ import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
 import com.revature.MYbrary.services.UserService;
 import com.revature.MYbrary.util.LinkedList;
+import com.revature.MYbrary.util.Logger;
 import com.revature.MYbrary.util.ScreenRouter;
 
 import java.io.BufferedReader;
@@ -15,13 +16,16 @@ import java.io.BufferedReader;
 public class LoanScreen extends Screen {
 
     private final UserService userService;
+    private final Logger logger;
     public LoanScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("LoanScreen", "/loan", consoleReader, router);
         this.userService = userService;
+        logger = Logger.getLogger(false);
     }
     private AppUserDAO userDAO = new AppUserDAO();
     private LibraryDAO libraryDAO = new LibraryDAO();
     private BookDAO bookDAO = new BookDAO();
+    // private Logger logger = Logger.getLogger(false);
 
     @Override
     public void render() throws Exception {
@@ -41,14 +45,22 @@ public class LoanScreen extends Screen {
         System.out.print("> ");
         String userInput = consoleReader.readLine();
 
-        AppUser userSelection = users.get(Integer.parseInt(userInput) - 1);
-        // Then we set the library_id field of the active book to the new value.
-        // Do some kind of confirmation first...
-        Library selectedUserDefaultLibrary = libraryDAO.getDefaultLibrary(userSelection.getId());
-        System.out.println("~~~~~~~~ FLAG - LoanScreen L.46 ~~~~~~~~\n" + selectedUserDefaultLibrary.getName());
-        Book newBook = new Book(thisBook.getTitle(), thisBook.getAuthor(), thisBook.getPageCount(), 0, selectedUserDefaultLibrary.getId());
-        bookDAO.save(newBook);
-        System.out.println("Ok, your book has been lent to " + userSelection.getUsername());
-        router.navigate("/dashboard");
+        try {
+            Integer selectedUserId = Integer.parseInt(userInput) - 1;
+            AppUser userSelection = users.get(selectedUserId);
+            Library selectedUserDefaultLibrary = libraryDAO.getDefaultLibrary(userSelection.getId());
+            Book newBook = new Book(thisBook.getTitle(), thisBook.getAuthor(), thisBook.getPageCount(), 0, selectedUserDefaultLibrary.getId());
+            bookDAO.save(newBook);
+            logger.log(userService.getSessionUser().getUsername() + " loaned " + newBook.getTitle() + " to " + userSelection.getUsername());
+            System.out.println("Ok, your book has been lent to " + userSelection.getUsername());
+            router.navigate("/dashboard");
+        } catch (NumberFormatException e) {
+            System.out.println("Input could not be interpreted as an Integer.");
+            router.navigate("/book");
+        } catch (RuntimeException e) {
+            System.out.println("Selection could not be found in the above list.");
+            router.navigate("/book");
+        }
+
     }
 }
