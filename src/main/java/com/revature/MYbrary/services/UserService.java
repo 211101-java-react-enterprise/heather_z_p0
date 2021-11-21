@@ -18,7 +18,6 @@ import com.revature.MYbrary.models.Library;
 
 public class UserService {
 
-    //?? Why is userDAO final but not sessionUser ??//
     private final AppUserDAO userDAO;
     private final LibraryDAO libraryDAO;
     private final BookDAO bookDAO;
@@ -41,8 +40,6 @@ public class UserService {
     }
 
     public boolean registerNewUser(AppUser newUser, Library newLibrary) {
-        // TODO - Add New Library step to the registration process
-
         if (!isUserValid(newUser)) {
             throw new InvalidRequestException("Invalid user data provided!");
         }
@@ -118,12 +115,10 @@ public class UserService {
     }
 
     public Library getDefaultLibrary() {
-        // LibraryDAO? Yes, select by user ID
         return libraryDAO.getDefaultLibrary(sessionUser.getId());
     }
 
     public Library getDefaultLibrary(String id) {
-        // LibraryDAO? Yes, select by user ID
         return libraryDAO.getDefaultLibrary(id);
     }
 
