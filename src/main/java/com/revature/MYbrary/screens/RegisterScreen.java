@@ -38,12 +38,8 @@ public class RegisterScreen extends Screen {
         System.out.print("YOUR LIBRARY NAME: ");
         String libraryName = consoleReader.readLine();
 
-        if (libraryName.equals("") | libraryName.equals(null)) { // Provide default name when upon blank input
-            libraryName = userService.getSessionUser().getPersonalName() + "'s Library";
-        }
-
         AppUser newUser = new AppUser(personalName, email, username, password);
-        Library newLibrary = new Library(libraryName, userService.getSessionUser().getId());
+        Library newLibrary = new Library(libraryName, "orphan");
 
         try {
             userService.registerNewUser(newUser, newLibrary);

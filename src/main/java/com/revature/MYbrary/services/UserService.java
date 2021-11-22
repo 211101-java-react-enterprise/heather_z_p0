@@ -15,6 +15,7 @@ import com.revature.MYbrary.models.Annotation;
 import com.revature.MYbrary.models.AppUser;
 import com.revature.MYbrary.models.Book;
 import com.revature.MYbrary.models.Library;
+import com.revature.MYbrary.util.AppState;
 
 public class UserService {
 
@@ -59,6 +60,10 @@ public class UserService {
 
         AppUser registeredUser = userDAO.save(newUser); // Attempt to save the input data to the database
         newLibrary.setUserId(registeredUser.getId());
+        if (newLibrary.getName().equals("") | newLibrary.getName().equals(null)) { // Provide default name when upon blank input
+            newLibrary.setName(registeredUser.getPersonalName() + "'s Library");
+        }
+
         Library initialLibrary = libraryDAO.save(newLibrary);
 
         if (registeredUser == null) { // If registeredUser is still empty after the last line, something prevented userDAO from returning an AppUser
@@ -94,6 +99,8 @@ public class UserService {
         sessionUser = null;
         sessionLibrary = null;
         sessionBook = null;
+        sessionAnnotation = null;
+        AppState.shutdown();
     }
 
     public boolean isSessionActive() {

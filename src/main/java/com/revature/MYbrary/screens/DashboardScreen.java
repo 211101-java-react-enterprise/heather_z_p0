@@ -28,13 +28,13 @@ public class DashboardScreen extends Screen {
     @Override
     public void render() throws Exception {
 
-        // I think this is pointless?
-//        Library library = userService.getSessionLibrary();
-//        try {
-//            LinkedList<Book> libraryBooks = library.getBooks();
-//        } catch (Exception e) {
-//            System.out.println("No books in library!");
-//        }
+
+        Library library = userService.getSessionLibrary();
+        try {
+            LinkedList<Book> libraryBooks = library.getBooks();
+        } catch (Exception e) {
+            System.out.println("No books in library!");
+        }
 
         System.out.printf("~~~~~~~~ %s's Dashboard ~~~~~~~~\n", userService.getSessionUser().getPersonalName());
         System.out.println(" 1) View Books\n 2) New Book\n 3) Change Libraries\n 4) Create a New Library\n 5) Logout");
@@ -57,7 +57,6 @@ public class DashboardScreen extends Screen {
             case "5":
                 System.out.println("\nThanks for using MYbrary!\n");
                 userService.logout();
-                router.navigate("/welcome");
                 break;
             default:
                 System.out.println("Could not parse input.");
